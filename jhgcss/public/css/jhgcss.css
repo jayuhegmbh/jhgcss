@@ -1,0 +1,67 @@
+/* ============================================
+   JHGCSS - ERPNext v16 사이드바 UI 개선
+   - 사이드바 폭 확장
+   - 한글 번역 라벨 줄바꿈 처리
+   ============================================ */
+
+:root {
+  --sidebar-width: 260px;
+}
+
+/* 사이드바를 항상 expanded 상태로 강제 */
+.body-sidebar-container .body-sidebar {
+  position: relative !important;
+  width: var(--sidebar-width) !important;
+}
+
+.body-sidebar-container .body-sidebar-placeholder {
+  display: flex !important;
+  width: var(--sidebar-width) !important;
+}
+
+.body-sidebar .nav-item {
+  padding: 4px 8px;
+}
+
+.body-sidebar .collapse-sidebar-link,
+.body-sidebar .onboarding-sidebar,
+.body-sidebar .promotional-banner {
+  display: flex !important;
+  align-items: center;
+}
+
+.body-sidebar .collapse-sidebar-link span,
+.body-sidebar .onboarding-sidebar span,
+.body-sidebar .promotional-banner span {
+  margin-left: 10px;
+}
+
+/* 긴 한글 라벨이 아이콘과 겹치지 않도록 */
+.body-sidebar .standard-sidebar-item .item-anchor {
+  min-width: 0;
+  gap: 4px;
+  height: auto;
+  min-height: 30px;
+  padding: 3px 0;
+}
+
+.body-sidebar .standard-sidebar-item .sidebar-item-label {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  line-height: 1.25;
+  font-size: 12.5px;
+}
+
+/* 모바일에서는 원래 동작 유지 */
+@media (max-width: 576px) {
+  .body-sidebar-container:not(.expanded) .body-sidebar {
+    width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  .body-sidebar-container:not(.expanded) .body-sidebar-placeholder {
+    width: 0 !important;
+  }
+}
