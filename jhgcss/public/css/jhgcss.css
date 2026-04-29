@@ -1,14 +1,15 @@
-/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.1)
+/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.2)
  * v5: 데스크톱/태블릿/모바일 미디어쿼리 안정화
- * v6: 팝업/드롭다운 메뉴의 한글 라벨 잘림 문제 해결
- * v6.1: frappe-menu (context-menu) Vue 컴포넌트 한글 잘림 추가 처리
+ * v6: Bootstrap 드롭다운 메뉴 한글 잘림 해결
+ * v6.1: frappe-menu (Vue 컨텍스트 메뉴) 셀렉터 추가
+ * v6.2: frappe-menu 항목 고정 높이 해제 — 두 줄 텍스트가 다음 항목과 겹치는 문제 해결
  */
 
 :root {
   --sidebar-width: 240px;
 }
 
-/* ===== 1. 사이드바 (v5 유지) ===== */
+/* ===== 1. 사이드바 ===== */
 @media (min-width: 769px) {
   .body-sidebar-container.expanded .sidebar-item-label,
   .body-sidebar-container.expanded .sidebar-item-container .sidebar-item-label,
@@ -43,7 +44,7 @@
   }
 }
 
-/* ===== 2. Bootstrap 드롭다운 메뉴 (v6 유지) ===== */
+/* ===== 2. Bootstrap 드롭다운 메뉴 ===== */
 .dropdown-menu {
   min-width: 200px;
   max-width: 320px;
@@ -127,54 +128,67 @@
   max-width: 320px;
 }
 
-/* ===== 3. frappe-menu (v16 Vue 컨텍스트 메뉴) — v6.1 신규 ===== */
+/* ===== 3. frappe-menu (v16 Vue 컨텍스트 메뉴) — v6.2 ===== */
 
-/* 컨테이너: 사용자 메뉴, Help 메뉴, 우측 상단 메뉴 등 */
 .frappe-menu,
 .frappe-menu.context-menu {
-  min-width: 220px;
+  min-width: 240px;
   max-width: 360px;
-  /* 인라인 스타일의 left/top은 유지하되 폭만 보정 */
+  height: auto !important;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
-/* 메뉴 아이템 */
 .frappe-menu .dropdown-menu-item {
+  height: auto !important;
+  min-height: 32px;
+  margin-bottom: 2px;
   white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-  line-height: 1.4;
+  overflow: visible;
 }
 
-/* 메뉴 아이템 내부 a 태그 (flex 컨테이너) */
-.frappe-menu .dropdown-menu-item > a {
+.frappe-menu .dropdown-menu-item > a,
+.frappe-menu .dropdown-menu-item a {
   display: flex;
   align-items: flex-start;
   min-width: 0;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  height: auto !important;
+  min-height: 32px;
+  padding: 8px 12px !important;
   white-space: normal;
+  overflow: visible;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* 아이콘은 줄어들지 않도록 */
 .frappe-menu .dropdown-menu-item .menu-item-icon {
+  flex: 0 0 auto;
   flex-shrink: 0;
   margin-top: 2px;
+  margin-right: 8px;
 }
 
-/* 라벨 텍스트 — 핵심 수정 */
-.frappe-menu .dropdown-menu-item .menu-item-title {
+.frappe-menu .dropdown-menu-item .menu-item-title,
+.frappe-menu .menu-item-title {
+  display: block;
   min-width: 0;
   flex: 1 1 auto;
-  white-space: normal;
+  white-space: normal !important;
   overflow-wrap: anywhere;
   word-break: keep-all;
-  line-height: 1.4;
-  /* 혹시 부모에서 truncate가 걸려 있을 경우 차단 */
-  overflow: visible;
-  text-overflow: clip;
+  line-height: 1.45;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  height: auto !important;
+  max-height: none !important;
 }
 
-/* ===== 4. 모바일에서 드롭다운이 화면 밖으로 나가지 않도록 ===== */
+.frappe-menu .dropdown-menu-item .menu-item-arrow,
+.frappe-menu .dropdown-menu-item svg {
+  flex-shrink: 0;
+}
+
+/* ===== 4. 모바일 ===== */
 @media (max-width: 768px) {
   .dropdown-menu,
   .frappe-menu {
