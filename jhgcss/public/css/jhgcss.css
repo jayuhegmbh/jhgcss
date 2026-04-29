@@ -1,8 +1,7 @@
-/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.4)
- * v6.3: desk 컨텍스트 한정으로 로그인 페이지 보호
- * v6.4: frappe-menu 의 강제 규칙(!important, min-width, max-height, overflow)을
- *       context-menu 한정으로 좁혀서, 사이드바 하단 사용자 팝업 등 다른
- *       frappe-menu 변종에 영향이 가지 않도록 함
+/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.5)
+ * v6.4: frappe-menu.context-menu 한정으로 강제 규칙 좁힘
+ * v6.5: 사이드바 하단 사용자 dropdown(.dropdown-navbar-user / #toolbar-user) 폭/표시 보정
+ *       — collapsed 사이드바에서 작은 빈 박스로만 뜨던 문제 해결
  */
 
 :root {
@@ -121,12 +120,44 @@ body[data-route] .popover-body {
   max-width: 320px;
 }
 
-/* ===== 3. frappe-menu — context-menu 변종에만 강제 규칙 적용 (v6.4) =====
- * 핵심 변경: .frappe-menu 단독 셀렉터 대신 .frappe-menu.context-menu 로 한정.
- * 사이드바 하단 사용자 메뉴 등 다른 frappe-menu 변종은 ERPNext 기본 동작을 그대로 유지.
+/* ===== 3. 사이드바 하단 사용자 드롭다운 — v6.5 핵심 ===== 
+ * DOM: .body-sidebar-bottom > .dropdown-navbar-user > button + .dropdown-menu#toolbar-user
+ * 문제: collapsed 사이드바(50px)에 종속되어 폭이 거의 0으로 보이는 빈 박스
+ * 해결: 폭 명시 + 사이드바 밖으로 펼쳐지도록 보정
  */
 
-/* 컨테이너: 우측 상단 navbar 컨텍스트 메뉴에만 폭/높이 강제 */
+.body-sidebar-bottom .dropdown-navbar-user .dropdown-menu,
+.body-sidebar-bottom .dropdown-menu,
+.dropdown-navbar-user .dropdown-menu,
+#toolbar-user {
+  min-width: 240px;
+  max-width: 340px;
+  /* collapsed 사이드바 폭(50px) 종속 차단 */
+  width: auto;
+}
+
+/* 메뉴 아이템 라벨 줄바꿈 (한글 대응) */
+.body-sidebar-bottom .dropdown-menu .dropdown-item,
+.body-sidebar-bottom .dropdown-menu > li > a,
+.dropdown-navbar-user .dropdown-menu .dropdown-item,
+.dropdown-navbar-user .dropdown-menu > li > a,
+#toolbar-user .dropdown-item,
+#toolbar-user > li > a {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  line-height: 1.4;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* 토글 버튼 자체의 텍스트 영역 보호 (사용자 이름 / 이메일 줄바꿈은 ERPNext 기본 truncate 유지) */
+.body-sidebar-bottom .dropdown-navbar-user .avatar-name-email .text-truncate {
+  /* ERPNext 가 명시한 truncate 는 그대로 두고 폭만 확실히 잡음 */
+  min-width: 0;
+}
+
+/* ===== 4. frappe-menu — context-menu 한정 강제 규칙 ===== */
 .frappe-menu.context-menu {
   min-width: 240px;
   max-width: 360px;
@@ -134,7 +165,6 @@ body[data-route] .popover-body {
   overflow-y: auto;
 }
 
-/* 메뉴 아이템 텍스트 줄바꿈 — 모든 frappe-menu 에 안전하게 적용 (height 강제 X) */
 .frappe-menu .dropdown-menu-item {
   white-space: normal;
   overflow: visible;
@@ -151,7 +181,6 @@ body[data-route] .popover-body {
   flex-shrink: 0;
 }
 
-/* 라벨 — 줄바꿈만 강제, 높이는 건드리지 않음 */
 .frappe-menu .dropdown-menu-item .menu-item-title,
 .frappe-menu .menu-item-title {
   min-width: 0;
@@ -164,7 +193,6 @@ body[data-route] .popover-body {
   text-overflow: clip;
 }
 
-/* context-menu 변종에만 두 줄 겹침 방지를 위한 패딩/높이 보정 */
 .frappe-menu.context-menu .dropdown-menu-item {
   height: auto;
   min-height: 32px;
@@ -192,10 +220,12 @@ body[data-route] .popover-body {
   flex-shrink: 0;
 }
 
-/* ===== 4. 모바일 ===== */
+/* ===== 5. 모바일 ===== */
 @media (max-width: 768px) {
   .layout-main-section .dropdown-menu,
-  .frappe-menu.context-menu {
+  .frappe-menu.context-menu,
+  .body-sidebar-bottom .dropdown-menu,
+  #toolbar-user {
     max-width: calc(100vw - 24px);
   }
 }
