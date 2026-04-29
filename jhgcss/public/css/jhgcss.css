@@ -1,15 +1,14 @@
-/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.2)
- * v5: 데스크톱/태블릿/모바일 미디어쿼리 안정화
- * v6: Bootstrap 드롭다운 메뉴 한글 잘림 해결
- * v6.1: frappe-menu (Vue 컨텍스트 메뉴) 셀렉터 추가
- * v6.2: frappe-menu 항목 고정 높이 해제 — 두 줄 텍스트가 다음 항목과 겹치는 문제 해결
+/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.3)
+ * v6.2: frappe-menu 항목 고정 높이 해제
+ * v6.3: 모든 규칙을 desk 컨텍스트(.layout-main-section / .body-sidebar-container / .frappe-menu)로 한정
+ *       — 로그인/웹 페이지에 영향을 주던 문제 해결
  */
 
 :root {
   --sidebar-width: 240px;
 }
 
-/* ===== 1. 사이드바 ===== */
+/* ===== 1. 사이드바 (원래 desk 전용이라 안전) ===== */
 @media (min-width: 769px) {
   .body-sidebar-container.expanded .sidebar-item-label,
   .body-sidebar-container.expanded .sidebar-item-container .sidebar-item-label,
@@ -44,15 +43,22 @@
   }
 }
 
-/* ===== 2. Bootstrap 드롭다운 메뉴 ===== */
-.dropdown-menu {
+/* ===== 2. Bootstrap 드롭다운 — desk 페이지 한정 =====
+ * .layout-main-section: desk 메인 컨테이너 (로그인/웹페이지에는 없음)
+ * .navbar: desk 상단 네비게이션바
+ */
+
+.layout-main-section .dropdown-menu,
+.navbar .dropdown-menu {
   min-width: 200px;
   max-width: 320px;
 }
 
-.dropdown-menu .dropdown-item,
-.dropdown-menu > li > a,
-.dropdown-menu .menu-item {
+.layout-main-section .dropdown-menu .dropdown-item,
+.layout-main-section .dropdown-menu > li > a,
+.layout-main-section .dropdown-menu .menu-item,
+.navbar .dropdown-menu .dropdown-item,
+.navbar .dropdown-menu > li > a {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
@@ -61,75 +67,69 @@
   padding-bottom: 6px;
 }
 
-.notifications-list .notification-item,
-.notifications-list .recent-item {
+.layout-main-section .notifications-list .notification-item,
+.layout-main-section .notifications-list .recent-item,
+.navbar .notifications-list .notification-item,
+.navbar .notifications-list .recent-item {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
 }
 
-.navbar .dropdown-menu,
-.navbar-dropdown {
-  min-width: 220px;
-  max-width: 340px;
-}
-
-.awesomplete > ul > li {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-  line-height: 1.4;
-}
-
-.standard-actions .dropdown-menu,
-.custom-actions .dropdown-menu,
-.menu-btn-group .dropdown-menu,
-.actions-btn-group .dropdown-menu {
-  min-width: 220px;
-  max-width: 360px;
-}
-
-.standard-actions .dropdown-menu .dropdown-item,
-.custom-actions .dropdown-menu .dropdown-item,
-.menu-btn-group .dropdown-menu .dropdown-item,
-.actions-btn-group .dropdown-menu .dropdown-item {
+.layout-main-section .awesomplete > ul > li,
+.navbar .awesomplete > ul > li {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
   line-height: 1.4;
 }
 
-.context-menu,
-.context-menu .dropdown-item {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-}
-
-.filter-list .dropdown-menu,
-.sort-selector .dropdown-menu,
-.list-view-controls .dropdown-menu {
+.layout-main-section .standard-actions .dropdown-menu,
+.layout-main-section .custom-actions .dropdown-menu,
+.layout-main-section .menu-btn-group .dropdown-menu,
+.layout-main-section .actions-btn-group .dropdown-menu {
   min-width: 220px;
   max-width: 360px;
 }
 
-.filter-list .dropdown-menu .dropdown-item,
-.sort-selector .dropdown-menu .dropdown-item {
+.layout-main-section .standard-actions .dropdown-menu .dropdown-item,
+.layout-main-section .custom-actions .dropdown-menu .dropdown-item,
+.layout-main-section .menu-btn-group .dropdown-menu .dropdown-item,
+.layout-main-section .actions-btn-group .dropdown-menu .dropdown-item {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  line-height: 1.4;
+}
+
+.layout-main-section .filter-list .dropdown-menu,
+.layout-main-section .sort-selector .dropdown-menu,
+.layout-main-section .list-view-controls .dropdown-menu {
+  min-width: 220px;
+  max-width: 360px;
+}
+
+.layout-main-section .filter-list .dropdown-menu .dropdown-item,
+.layout-main-section .sort-selector .dropdown-menu .dropdown-item {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
 }
 
-.tooltip-inner,
-.popover-body {
+/* tooltip / popover — body[data-route] 가 있는 desk 페이지에서만 */
+body[data-route] .tooltip-inner,
+body[data-route] .popover-body {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
   max-width: 320px;
 }
 
-/* ===== 3. frappe-menu (v16 Vue 컨텍스트 메뉴) — v6.2 ===== */
-
+/* ===== 3. frappe-menu (Vue 컨텍스트 메뉴) =====
+ * .frappe-menu 는 desk 의 navbar 가 동적으로 생성하므로
+ * 로그인 페이지에는 존재하지 않아 한정 불필요. 
+ * 그래도 만일을 대비해 body[data-route] 변종도 추가.
+ */
 .frappe-menu,
 .frappe-menu.context-menu {
   min-width: 240px;
@@ -188,9 +188,9 @@
   flex-shrink: 0;
 }
 
-/* ===== 4. 모바일 ===== */
+/* ===== 4. 모바일 보정 — desk 한정 ===== */
 @media (max-width: 768px) {
-  .dropdown-menu,
+  .layout-main-section .dropdown-menu,
   .frappe-menu {
     max-width: calc(100vw - 24px);
   }
