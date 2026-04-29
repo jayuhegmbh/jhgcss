@@ -361,3 +361,110 @@ body[data-route] .popover-body {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
+
+/* =========================================================
+   v6.8 (2026-04-29) — v6.7 후속: grid가 모달 박스 밖으로
+   넘치는 문제 해결. 모든 셀을 모달 폭 안에 가둠.
+   ========================================================= */
+
+/* 모달 컨텐츠 - box-sizing 통일 */
+#desktop-modal .modal-content,
+.desktop-modal .modal-content,
+#desktop-modal .modal-body,
+.desktop-modal .modal-body,
+#desktop-modal .desktop-modal-body,
+.desktop-modal .desktop-modal-body {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* icons-container - 박스 안에 강제 격리 */
+#desktop-modal .icons-container,
+.desktop-modal .icons-container,
+.desktop-modal-body .icons-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 16px !important;
+}
+
+/* grid - 컨테이너 폭 100% 안에서 4컬럼 분할, 절대 넘치지 않게 */
+#desktop-modal .icons,
+.desktop-modal .icons,
+.desktop-modal-body .icons {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  gap: 16px 8px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* desktop-icon 셀 - 셀 폭을 절대 넘지 않게 */
+#desktop-modal .desktop-icon,
+.desktop-modal .desktop-icon,
+.desktop-modal-body .desktop-icon {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 8px 4px !important;
+  margin: 0 !important;
+  text-align: center !important;
+  overflow: hidden !important;
+}
+
+/* 캡션 - 셀 폭 안에서만 줄바꿈 */
+#desktop-modal .desktop-icon .icon-caption,
+.desktop-modal .desktop-icon .icon-caption,
+.desktop-modal-body .desktop-icon .icon-caption {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  white-space: normal !important;
+  text-wrap-mode: wrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  text-overflow: clip !important;
+  overflow: hidden !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+  padding: 0 2px !important;
+  margin-top: 6px !important;
+}
+
+/* 모달 다이얼로그 - 너무 넓지 않게 조정 */
+#desktop-modal .modal-dialog,
+.desktop-modal .modal-dialog {
+  max-width: 680px !important;
+  width: calc(100vw - 32px) !important;
+  margin: 1.75rem auto !important;
+}
+
+/* 모바일 보정 */
+@media (max-width: 768px) {
+  #desktop-modal .icons,
+  .desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 480px) {
+  #desktop-modal .icons,
+  .desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
