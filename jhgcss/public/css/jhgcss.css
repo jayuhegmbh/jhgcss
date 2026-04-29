@@ -1,18 +1,19 @@
 /* ============================================
-   JHGCSS - ERPNext v16 사이드바 UI 개선 (v3)
-   - DOM 구조: body-sidebar-container.expanded > body-sidebar-placeholder + body-sidebar
-   - main-section은 body-sidebar-container의 형제 요소
-   - 사이드바 폭 확장 + 한글 라벨 줄바꿈
+   JHGCSS - ERPNext v16 사이드바 UI 개선 (v4)
+   - expanded 상태에서만 라벨 줄바꿈 적용
+   - collapsed 상태는 ERPNext 기본 동작 유지
    ============================================ */
 
-/* 사이드바 폭 변수 변경 (CSS 변수 활용) */
+/* 사이드바 폭 변수 (expanded 시 폭) */
 :root {
   --sidebar-width: 240px;
 }
 
-/* 사이드바 라벨이 아이콘과 겹치지 않도록 줄바꿈 + 한국어 word-break */
-.body-sidebar .sidebar-item-label,
-.body-sidebar .sidebar-item-container .sidebar-item-label {
+/* === expanded 상태에서만 적용되는 규칙들 === */
+
+/* 사이드바 라벨 줄바꿈 (한국어 word-break) */
+.body-sidebar-container.expanded .body-sidebar .sidebar-item-label,
+.body-sidebar-container.expanded .body-sidebar .sidebar-item-container .sidebar-item-label {
   min-width: 0;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -21,7 +22,7 @@
 }
 
 /* 헤더 타이틀(예: "Invoicing")도 줄바꿈 허용 */
-.body-sidebar .sidebar-header .header-title {
+.body-sidebar-container.expanded .body-sidebar .sidebar-header .header-title {
   min-width: 0;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -30,8 +31,8 @@
 }
 
 /* 사이드바 항목 높이 자동 조정 (긴 라벨 수용) */
-.body-sidebar .standard-sidebar-item .item-anchor,
-.body-sidebar .sidebar-item-container .item-anchor {
+.body-sidebar-container.expanded .body-sidebar .standard-sidebar-item .item-anchor,
+.body-sidebar-container.expanded .body-sidebar .sidebar-item-container .item-anchor {
   min-width: 0;
   height: auto;
   min-height: 30px;
@@ -40,6 +41,6 @@
 }
 
 /* 아이콘이 줄어들지 않도록 (라벨 길어도 아이콘은 고정 크기) */
-.body-sidebar .sidebar-item-icon {
+.body-sidebar-container.expanded .body-sidebar .sidebar-item-icon {
   flex-shrink: 0;
 }
