@@ -468,3 +468,107 @@ body[data-route] .popover-body {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+/* =========================================================
+   v6.9 (2026-04-29) — v6.8 후속: 라벨 잘림 → 두 줄 줄바꿈으로
+   원인: v6.8의 overflow:hidden이 줄바꿈까지 막음
+   수정: 캡션과 셀의 overflow를 visible로, 컨테이너만 hidden
+   ========================================================= */
+
+/* 모달 컨테이너 - 외곽 박스만 가로 넘침 차단 */
+#desktop-modal .modal-content,
+.desktop-modal .modal-content,
+#desktop-modal .modal-body,
+.desktop-modal .modal-body,
+#desktop-modal .desktop-modal-body,
+.desktop-modal .desktop-modal-body,
+#desktop-modal .icons-container,
+.desktop-modal .icons-container,
+.desktop-modal-body .icons-container {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+/* grid - minmax(0,1fr)로 트랙이 컨테이너 안에서 분할 */
+#desktop-modal .icons,
+.desktop-modal .icons,
+.desktop-modal-body .icons {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  gap: 20px 8px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 셀 자체는 overflow:visible (라벨 두 줄 표시 위해) */
+#desktop-modal .desktop-icon,
+.desktop-modal .desktop-icon,
+.desktop-modal-body .desktop-icon {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 8px 2px !important;
+  margin: 0 !important;
+  text-align: center !important;
+  overflow: visible !important;
+  min-height: 110px !important;
+}
+
+/* 캡션 - 두 줄 이상 줄바꿈 허용, 가운데 정렬 */
+#desktop-modal .desktop-icon .icon-caption,
+.desktop-modal .desktop-icon .icon-caption,
+.desktop-modal-body .desktop-icon .icon-caption {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  white-space: normal !important;
+  text-wrap-mode: wrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  text-overflow: clip !important;
+  overflow: visible !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  padding: 0 2px !important;
+  margin-top: 6px !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* 모달 다이얼로그 폭 - 4컬럼이 편하게 들어가도록 720px */
+#desktop-modal .modal-dialog,
+.desktop-modal .modal-dialog {
+  max-width: 720px !important;
+  width: calc(100vw - 32px) !important;
+  margin: 1.75rem auto !important;
+}
+
+/* 모바일 보정 */
+@media (max-width: 768px) {
+  #desktop-modal .icons,
+  .desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 480px) {
+  #desktop-modal .icons,
+  .desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
