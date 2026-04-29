@@ -701,3 +701,113 @@ body[data-route] .popover-body {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+/* =========================================================
+   v6.11 (2026-04-29) — 워크스페이스 모달 박스 크기 확대
+   목적: 박스 자체를 위아래로 키워 여유로운 레이아웃
+   변경: 가로 폭 720→820px, 세로 padding/min-height 확대
+         아이콘 셀 min-height 110→130px, gap 24→32px
+   ========================================================= */
+
+/* 모달 다이얼로그 — 가로 폭 확대 */
+#desktop-modal .modal-dialog,
+.desktop-modal .modal-dialog {
+  max-width: 820px !important;
+  width: calc(100vw - 32px) !important;
+  margin: 1.75rem auto !important;
+}
+
+/* 모달 컨텐츠 — 세로 여유 확보 */
+#desktop-modal .modal-content,
+.desktop-modal .modal-content {
+  min-height: 480px !important;
+  border-radius: 16px !important;
+}
+
+/* 모달 body — 위아래 padding 확대 */
+#desktop-modal .modal-body,
+.desktop-modal .modal-body,
+#desktop-modal .desktop-modal-body,
+.desktop-modal .desktop-modal-body {
+  padding: 32px 28px !important;
+  min-height: 420px !important;
+  box-sizing: border-box !important;
+}
+
+/* icons-container — 내부 여백 확대 */
+#desktop-modal .icons-container,
+.desktop-modal .icons-container,
+.desktop-modal-body .icons-container {
+  padding: 16px 8px !important;
+  min-height: 380px !important;
+  box-sizing: border-box !important;
+}
+
+/* grid — 아이콘 사이 세로 간격 대폭 확대 */
+#desktop-modal .icons,
+.desktop-modal .icons,
+.desktop-modal-body .icons {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 32px 16px !important;
+  padding: 16px 8px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 각 아이콘 셀 — 세로 길이 증가 */
+#desktop-modal .desktop-icon,
+.desktop-modal .desktop-icon,
+.desktop-modal-body .desktop-icon {
+  min-height: 130px !important;
+  padding: 12px 4px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: center !important;
+  text-decoration: none !important;
+}
+
+/* 캡션 — 아이콘과 더 떨어지도록 */
+#desktop-modal .desktop-icon .icon-caption,
+.desktop-modal .desktop-icon .icon-caption,
+.desktop-modal-body .desktop-icon .icon-caption {
+  margin-top: 10px !important;
+  line-height: 1.4 !important;
+}
+
+/* 모바일 보정 — 폭이 좁을 때는 다시 작게 */
+@media (max-width: 768px) {
+  #desktop-modal .modal-content,
+  .desktop-modal .modal-content {
+    min-height: 420px !important;
+  }
+  #desktop-modal .modal-body,
+  .desktop-modal .modal-body,
+  #desktop-modal .desktop-modal-body {
+    padding: 24px 16px !important;
+    min-height: 360px !important;
+  }
+  #desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 24px 12px !important;
+  }
+  #desktop-modal .desktop-icon {
+    min-height: 115px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px 8px !important;
+  }
+}
