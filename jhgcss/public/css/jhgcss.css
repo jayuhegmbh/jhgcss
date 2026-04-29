@@ -811,3 +811,70 @@ body[data-route] .popover-body {
     gap: 20px 8px !important;
   }
 }
+
+/* =========================================================
+   v6.12 (2026-04-29) — 워크스페이스 모달 박스 세로만 추가 확대
+   목적: v6.11 가로 폭 유지, 위아래만 더 길게
+   변경: min-height 480→620px, body padding 32→52px (위아래),
+         body min-height 420→560px, gap 32→44px
+   ========================================================= */
+
+/* 모달 컨텐츠 — 세로 추가 확대 */
+#desktop-modal .modal-content,
+.desktop-modal .modal-content {
+  min-height: 620px !important;
+}
+
+/* 모달 body — 위아래 padding 추가 확대 */
+#desktop-modal .modal-body,
+.desktop-modal .modal-body,
+#desktop-modal .desktop-modal-body,
+.desktop-modal .desktop-modal-body {
+  padding: 52px 28px !important;
+  min-height: 560px !important;
+}
+
+/* icons-container — 위아래 여백 확대 */
+#desktop-modal .icons-container,
+.desktop-modal .icons-container,
+.desktop-modal-body .icons-container {
+  padding: 28px 8px !important;
+  min-height: 500px !important;
+}
+
+/* grid — 행 간격 추가 확대 (세로만) */
+#desktop-modal .icons,
+.desktop-modal .icons,
+.desktop-modal-body .icons {
+  gap: 44px 16px !important;
+  padding: 24px 8px !important;
+}
+
+/* 각 아이콘 셀 — 세로 추가 */
+#desktop-modal .desktop-icon,
+.desktop-modal .desktop-icon,
+.desktop-modal-body .desktop-icon {
+  min-height: 145px !important;
+  padding: 14px 4px !important;
+}
+
+/* 모바일 보정 */
+@media (max-width: 768px) {
+  #desktop-modal .modal-content,
+  .desktop-modal .modal-content {
+    min-height: 540px !important;
+  }
+  #desktop-modal .modal-body,
+  .desktop-modal .modal-body,
+  #desktop-modal .desktop-modal-body {
+    padding: 40px 16px !important;
+    min-height: 480px !important;
+  }
+  #desktop-modal .icons,
+  .desktop-modal-body .icons {
+    gap: 32px 12px !important;
+  }
+  #desktop-modal .desktop-icon {
+    min-height: 125px !important;
+  }
+}
