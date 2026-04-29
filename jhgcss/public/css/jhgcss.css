@@ -572,3 +572,132 @@ body[data-route] .popover-body {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+/* =========================================================
+   v6.10 (2026-04-29) — 라벨이 여전히 잘리는 문제 강력 해결
+   원인 후보: 
+     1) 부모/자식 .ellipsis 클래스가 캡션 자체에 적용됨
+     2) ERPNext 기본 CSS 더 구체적 셀렉터가 우리 규칙 이김
+     3) JS가 inline-style로 nowrap 추가
+   해결: 가능한 모든 셀렉터 조합 + 부모 .ellipsis 무력화
+   ========================================================= */
+
+/* 모달 안 모든 .ellipsis 클래스 무력화 (캡션이 .ellipsis 가지고 있을 가능성) */
+#desktop-modal .ellipsis,
+.desktop-modal .ellipsis,
+.desktop-modal-body .ellipsis,
+#desktop-modal *.ellipsis,
+.desktop-modal *.ellipsis {
+  white-space: normal !important;
+  text-overflow: clip !important;
+  overflow: visible !important;
+  text-wrap-mode: wrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 캡션 — 모든 가능한 자식 요소까지 강제 */
+#desktop-modal .desktop-icon .icon-caption,
+#desktop-modal .desktop-icon .icon-caption *,
+#desktop-modal .desktop-icon .icon-caption span,
+#desktop-modal .desktop-icon .icon-caption div,
+#desktop-modal a.desktop-icon .icon-caption,
+#desktop-modal a.desktop-icon > .icon-caption,
+.desktop-modal-body .desktop-icon .icon-caption,
+.desktop-modal-body .desktop-icon .icon-caption * {
+  white-space: normal !important;
+  text-overflow: clip !important;
+  text-overflow: unset !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  text-wrap-mode: wrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  word-wrap: break-word !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  line-height: 1.35 !important;
+  font-size: 12px !important;
+  text-align: center !important;
+  padding: 0 2px !important;
+  margin-top: 6px !important;
+  text-decoration: none !important;
+}
+
+/* desktop-icon 자체에 적용된 ellipsis 무력화 */
+#desktop-modal a.desktop-icon,
+#desktop-modal .desktop-icon,
+.desktop-modal-body a.desktop-icon,
+.desktop-modal-body .desktop-icon {
+  white-space: normal !important;
+  text-overflow: clip !important;
+  overflow: visible !important;
+  text-decoration: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 110px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 8px 2px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+/* hide-button 영역 - 캡션 옆 폭 잠식 방지 */
+#desktop-modal .desktop-icon .hide-button,
+.desktop-modal-body .desktop-icon .hide-button {
+  position: absolute !important;
+}
+
+/* grid 재확인 - minmax(0, 1fr) 강조 */
+#desktop-modal .icons,
+.desktop-modal-body .icons {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  gap: 24px 8px !important;
+  padding: 8px !important;
+  margin: 0 !important;
+}
+
+/* 모달 폭 */
+#desktop-modal .modal-dialog,
+.desktop-modal .modal-dialog {
+  max-width: 720px !important;
+  width: calc(100vw - 32px) !important;
+}
+
+#desktop-modal .modal-content,
+#desktop-modal .modal-body,
+#desktop-modal .desktop-modal-body,
+#desktop-modal .icons-container {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 모바일 보정 */
+@media (max-width: 768px) {
+  #desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 480px) {
+  #desktop-modal .icons,
+  .desktop-modal-body .icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
