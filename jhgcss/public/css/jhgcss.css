@@ -1,7 +1,9 @@
-/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.6)
+/* JHGCSS - ERPNext v16 사이드바 UI 개선 (v6.13)
  * v6.5: 사이드바 하단 사용자 dropdown(#toolbar-user) 폭 보정
- * v6.6: 모바일 사이드바 라벨 줄바꿈 강화 — text-wrap-mode/text-overflow/white-space 강제 덮어쓰기
+ * v6.6: 모바일 사이드바 라벨 줄바꿈 강화
+ * v6.13: 대시보드 차트 SVG 범례 글자 크기 축소 — 한글+영어 병기 시 겹침 방지
  */
+
 
 :root {
   --sidebar-width: 240px;
@@ -876,5 +878,27 @@ body[data-route] .popover-body {
   }
   #desktop-modal .desktop-icon {
     min-height: 125px !important;
+  }
+}
+
+
+/* ===== 6. 대시보드 차트 SVG 범례 — 겹침 방지 (v6.13) =====
+ * frappe-charts의 <text class="legend-dataset-label">은 SVG 텍스트라
+ * white-space/flex-wrap이 동작하지 않음. 한글+영어 병기 시 길어진 라벨이
+ * 가로로 겹치는 문제를 font-size 축소로 완화.
+ */
+@media (min-width: 769px) {
+  .layout-main-section .legend-dataset-label,
+  .layout-main-section text.legend-dataset-label,
+  .layout-main-section svg .legend-dataset-label {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-main-section .legend-dataset-label,
+  .layout-main-section text.legend-dataset-label,
+  .layout-main-section svg .legend-dataset-label {
+    font-size: 9px !important;
   }
 }
